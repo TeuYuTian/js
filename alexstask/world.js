@@ -271,7 +271,7 @@ this.star4.setVisible(true);
 
     //win scene and condition
     if ( this.player.x > 1820 && this.player.x < 1900 &&
-      this.player.y < 1880 && window.star >= 4) {
+      this.player.y > 1880 && window.star >= 4) {
         this.winScene();
       }
 
