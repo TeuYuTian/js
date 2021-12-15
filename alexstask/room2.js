@@ -6,7 +6,7 @@ class room2 extends Phaser.Scene {
     }
 
     init(data) {
-        this.playerPos = data.player;
+        this.playerPos = data.playerPos;
     }
 
     preload() {
@@ -23,6 +23,8 @@ class room2 extends Phaser.Scene {
     create() {
         console.log('*** room2 scene');
         let map = this.make.tilemap({ key: "room2"});
+
+        this.collectSound = this.sound.add("collect");
 
         // Step 4 Load the game tiles
     // 1st parameter is name in Tiled,
@@ -51,13 +53,92 @@ class room2 extends Phaser.Scene {
     // enable debug
     window.player = this.player;
 
+    //health hearts
+this.heart1 = this.add
+.image(600, 25, "heart")
+.setScrollFactor(0)
+.setVisible(false);
+this.heart2 = this.add
+.image(640, 25, "heart")
+.setScrollFactor(0)
+.setVisible(false);
+this.heart3 = this.add
+.image(680, 25, "heart")
+.setScrollFactor(0)
+.setVisible(false);
+this.heart4 = this.add
+.image(720, 25, "heart")
+.setScrollFactor(0)
+.setVisible(false);
+this.heart5 = this.add
+.image(760, 25, "heart")
+.setScrollFactor(0)
+.setVisible(false);
+
+if (window.heart == 5) {
+this.heart1.setVisible(true);
+this.heart2.setVisible(true);
+this.heart3.setVisible(true);
+this.heart4.setVisible(true);
+this.heart5.setVisible(true);
+} else if (window.heart == 4) {
+this.heart1.setVisible(true);
+this.heart2.setVisible(true);
+this.heart3.setVisible(true);
+this.heart4.setVisible(true);
+} else if (window.heart == 3) {
+this.heart1.setVisible(true);
+this.heart2.setVisible(true);
+this.heart3.setVisible(true);
+} else if (window.heart == 2) {
+this.heart1.setVisible(true);
+this.heart2.setVisible(true);
+} else if (window.heart == 1) {
+this.heart1.setVisible(true);
+}
+
     this.player.setCollideWorldBounds(true); // don't go out of the this.map
 
+    this.star1 = this.add.sprite(30,30,"star").setScrollFactor(0).setVisible(false);
+    this.star2 = this.add.sprite(70,30,"star").setScrollFactor(0).setVisible(false);
+    this.star3 = this.add.sprite(110,30,"star").setScrollFactor(0).setVisible(false);
+    this.star4 = this.add.sprite(150,30,"star").setScrollFactor(0).setVisible(false);
+
+    if ( window.star=== 1) {
+      this.star1.setVisible(true);
+
+  } else if ( window.star === 2) {
+      this.star1.setVisible(true);
+      this.star2.setVisible(true);
+
+  } else if ( window.star === 3) {
+      this.star1.setVisible(true);
+      this.star2.setVisible(true);
+      this.star3.setVisible(true);
+  } 
+  else if ( window.star === 4) {
+    this.star1.setVisible(true);
+    this.star2.setVisible(true);
+    this.star3.setVisible(true);
+    this.star4.setVisible(true);
+
+  }
+  
     // create the arrow keys
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // camera follow player
     this.cameras.main.startFollow(this.player);
+
+    this.treesLayer.setCollisionByExclusion(-1, true)
+    this.decorationLayer.setCollisionByExclusion(-1, true)
+
+    this.physics.add.collider(this.player, this.treesLayer);
+    this.physics.add.collider(this.player, this.decorationLayer);
+
+    this.elephant = this.physics.add.sprite(700, 300, 'elephant').play('elephant');
+    this.physics.add.overlap(this.player, this.elephant, this.collectAnimal, null, this );
+
 
     }
 
@@ -94,8 +175,36 @@ class room2 extends Phaser.Scene {
     playerPos.x = 311;
     playerPos.y = 940;
     playerPos.dir = "down";
-    this.scene.start("world", { player: playerPos });
+    this.scene.start("world", { playerPos: playerPos });
   }
 
+  collectAnimal(player, animal){
+    console.log("animal collected");
+    animal.disableBody (true, true);
+    window.star = window.star + 1
+    this.collectSound.play();
+
+    if ( window.star=== 1) {
+      this.star1.setVisible(true);
+
+  } else if ( window.star === 2) {
+      this.star1.setVisible(true);
+      this.star2.setVisible(true);
+
+  } else if ( window.star === 3) {
+      this.star1.setVisible(true);
+      this.star2.setVisible(true);
+      this.star3.setVisible(true);
+  } 
+  else if ( window.star === 4) {
+    this.star1.setVisible(true);
+    this.star2.setVisible(true);
+    this.star3.setVisible(true);
+    this.star4.setVisible(true);
+
+  }
+    return false;
+  }
 }
+
 
