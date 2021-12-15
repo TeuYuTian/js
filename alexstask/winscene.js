@@ -34,7 +34,7 @@ class winscene extends Phaser.Scene {
     // On spacebar event, call the world scene
     spaceDown.on("down",
       function () {
-        console.log("Jump to world scene");
+        console.log("Jump to main scene");
         let playerPos = {};
         playerPos.x = 1384;
         playerPos.y = 706;
@@ -42,6 +42,7 @@ class winscene extends Phaser.Scene {
         
    
         this.scene.start("main", { playerPos: playerPos });
+        window.music.stop()
       },
       this
     );
